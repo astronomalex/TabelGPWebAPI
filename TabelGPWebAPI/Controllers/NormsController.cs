@@ -1,89 +1,109 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TabelGPWebAPI.Models;
 
 namespace TabelGPWebAPI.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[Norms]")]
-    public class NormsController : Controller
+    public class NormsController : ControllerBase
     {
-        // GET: NormsController
-        public ActionResult Index()
+        private readonly ApplicationContext _context;
+
+        public NormsController(ApplicationContext context)
         {
-            return View();
+            _context = context;
         }
 
-        // GET: NormsController/Details/5
-        public ActionResult Details(int id)
+        // GET: api/Norms
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Norma>>> GetNorms()
         {
-            return View();
+            return await _context.Norms.ToListAsync();
         }
 
-        // GET: NormsController/Create
-        public ActionResult Create()
+        // GET: api/Norms/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Norma>> GetNorma(int id)
         {
-            return View();
+            var norma = await _context.Norms.FindAsync(id);
+
+            if (norma == null)
+            {
+                return NotFound();
+            }
+
+            return norma;
         }
 
-        // POST: NormsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        // PUT: api/Norms/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutNorma(int id, Norma norma)
         {
+            if (id != norma.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(norma).State = EntityState.Modified;
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
             }
-            catch
+            catch (DbUpdateConcurrencyException)
             {
-                return View();
+                if (!NormaExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
+
+            return NoContent();
         }
 
-        // GET: NormsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: NormsController/Edit/5
+        // POST: api/Norms
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult<Norma>> PostNorma(Norma norma)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _context.Norms.Add(norma);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetNorma), new { id = norma.Id }, norma);
         }
 
-        // GET: NormsController/Delete/5
-        public ActionResult Delete(int id)
+        // DELETE: api/Norms/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Norma>> DeleteNorma(int id)
         {
-            return View();
+            var norma = await _context.Norms.FindAsync(id);
+            if (norma == null)
+            {
+                return NotFound();
+            }
+
+            _context.Norms.Remove(norma);
+            await _context.SaveChangesAsync();
+
+            return norma;
         }
 
-        // POST: NormsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        private bool NormaExists(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return _context.Norms.Any(e => e.Id == id);
         }
     }
 }
