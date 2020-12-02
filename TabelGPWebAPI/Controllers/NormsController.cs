@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace TabelGPWebAPI.Controllers
 {
     [ApiController]
-    [Route("[Norms]")]
+    [Route("Norms")]
     public class NormsController : Controller
     {
         // GET: NormsController
