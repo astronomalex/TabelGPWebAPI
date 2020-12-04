@@ -18,5 +18,9 @@ namespace TabelGPWebAPI.Models
         public string NameOrder { get; set; }
         public string GroupDifficulty { get; set; }
         public int AmountDonePieces { get; set; }
+        [Required]
+        public Report Report { get; set; }
+        [Required]
+        public int ReportId { get; set; }
     }
 }

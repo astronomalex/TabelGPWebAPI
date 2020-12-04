@@ -9,5 +9,7 @@ namespace TabelGPWebAPI.Models
     {
         public string TbNum { get; set; }
         public string Grade { get; set; }
+        public Report Report { get; set; }
+        public int ReportId { get; set; }
     }
 }

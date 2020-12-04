@@ -10,7 +10,7 @@ namespace TabelGPWebAPI.Models
         public string DateSmen { get; set; }
         public string Machine { get; set; }
         public string NumSmen { get; set; }
-        public WorkerTime[] WorkerTimes {get; set;}
-        public ICollection<int> WorkerTimesId { get; set; }
+        public ICollection<WorkerTime> WorkerTimes {get; set;}
+        //public ICollection<int> WorkerTimesId { get; set; }
     }
 }
