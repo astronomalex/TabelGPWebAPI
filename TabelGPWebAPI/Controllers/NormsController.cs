@@ -41,7 +41,9 @@ namespace TabelGPWebAPI.Controllers
             catch
             {
                 return View();
+
             }
+            return Ok();
         }
 
         // GET: NormsController/Edit/5
