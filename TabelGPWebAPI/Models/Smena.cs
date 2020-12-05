@@ -7,6 +7,7 @@ namespace TabelGPWebAPI.Models
 {
     public class Smena
     {
+        public int Id { get; set; }
         public string DateSmen { get; set; }
         public string Machine { get; set; }
         public string NumSmen { get; set; }

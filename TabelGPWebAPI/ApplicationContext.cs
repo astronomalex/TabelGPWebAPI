@@ -13,7 +13,7 @@ namespace TabelGPWebAPI
         public DbSet<Report> Reports { get; set; }
         public DbSet<Smena> Smens { get; set; }
         public DbSet<WorkerData> WorkerDatas { get; set; }
-        public DbSet<WorkerListReport> WorkerListReports { get; set; }
+        public DbSet<WorkerReport> WorkerReport { get; set; }
         public DbSet<WorkerTime> WorkerTimes { get; set; }
         public DbSet<WorkUnit> WorkUnits { get; set; }
         
@@ -23,9 +23,9 @@ namespace TabelGPWebAPI
 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            
-        }
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     
+        // }
     }
 }

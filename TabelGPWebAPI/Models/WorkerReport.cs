@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace TabelGPWebAPI.Models
 {
-    public class WorkerListReport
+    public class WorkerReport
     {
+        public int Id { get; set; }
         public string TbNum { get; set; }
         public string Grade { get; set; }
         public Report Report { get; set; }

@@ -10,7 +10,7 @@ namespace TabelGPWebAPI.Models
         public int Id { get; set; }
         public string DateReport { get; set; }
         public string Machine { get; set; }
-        public ICollection<WorkerListReport> WorkerListReports { get; set; }
+        public ICollection<WorkerReport> WorkerListReports { get; set; }
         public string NumSmenReport { get; set; }
         public ICollection<WorkUnit> WorkUnits { get; set; }
         //public ICollection<int> workListReportId { get; set; }
