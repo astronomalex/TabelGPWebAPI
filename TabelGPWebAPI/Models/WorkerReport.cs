@@ -7,10 +7,10 @@ namespace TabelGPWebAPI.Models
 {
     public class WorkerReport
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string TbNum { get; set; }
         public string Grade { get; set; }
         public Report Report { get; set; }
-        public int ReportId { get; set; }
+        public Guid ReportId { get; set; }
     }
 }

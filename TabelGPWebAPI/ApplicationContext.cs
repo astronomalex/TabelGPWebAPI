@@ -3,19 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TabelGPWebAPI.Conf;
 using TabelGPWebAPI.Models;
 
 namespace TabelGPWebAPI
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<Norma> Norms { get; set; }
-        public DbSet<Report> Reports { get; set; }
-        public DbSet<Smena> Smens { get; set; }
-        public DbSet<WorkerData> WorkerDatas { get; set; }
-        public DbSet<WorkerReport> WorkerReport { get; set; }
-        public DbSet<WorkerTime> WorkerTimes { get; set; }
-        public DbSet<WorkUnit> WorkUnits { get; set; }
+        public virtual DbSet<Norma> Norms { get; set; }
+        public virtual DbSet<Report> Reports { get; set; }
+        public virtual DbSet<Smena> Smens { get; set; }
+        public virtual DbSet<WorkerData> WorkerDatas { get; set; }
+        public virtual DbSet<WorkerReport> WorkerReport { get; set; }
+        public virtual DbSet<WorkerTime> WorkerTimes { get; set; }
+        public virtual DbSet<WorkUnit> WorkUnits { get; set; }
         
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
@@ -23,9 +24,11 @@ namespace TabelGPWebAPI
 
         }
 
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     
-        // }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new SmenaConfiguration());
+            modelBuilder.ApplyConfiguration(new NormaConfiguration());
+            modelBuilder.ApplyConfiguration(new WorkerTimeConfiguration());
+        }
     }
 }

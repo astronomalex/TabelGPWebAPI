@@ -7,13 +7,13 @@ namespace TabelGPWebAPI.Models
 {
     public class Report
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string DateReport { get; set; }
         public string Machine { get; set; }
         public ICollection<WorkerReport> WorkerListReports { get; set; }
         public string NumSmenReport { get; set; }
         public ICollection<WorkUnit> WorkUnits { get; set; }
         //public ICollection<int> workListReportId { get; set; }
-        public float PersentOfReport { get; set; }
+        public decimal PersentOfReport { get; set; }
     }
 }

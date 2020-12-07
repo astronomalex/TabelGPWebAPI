@@ -8,10 +8,10 @@ namespace TabelGPWebAPI
 {
     public class Norma
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         public string Machine { get; set; }
         public string GroupDiff { get; set; }
-        public float Amount { get; set; }
+        public decimal Amount { get; set; }
     }
 }

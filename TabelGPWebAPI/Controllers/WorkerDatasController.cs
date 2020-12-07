@@ -6,55 +6,54 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TabelGPWebAPI;
+using TabelGPWebAPI.Models;
 
 namespace TabelGPWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NormsController : ControllerBase
+    public class WorkerDatasController : ControllerBase
     {
         private readonly ApplicationContext _context;
 
-        public NormsController(
-            ApplicationContext context
-            )
+        public WorkerDatasController(ApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: api/Norms
+        // GET: api/WorkerDatas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Norma>>> GetNorms()
+        public async Task<ActionResult<IEnumerable<WorkerData>>> GetWorkerDatas()
         {
-            return await _context.Norms.ToListAsync();
+            return await _context.WorkerDatas.ToListAsync();
         }
 
-        // GET: api/Norms/5
+        // GET: api/WorkerDatas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Norma>> GetNorma(int id)
+        public async Task<ActionResult<WorkerData>> GetWorkerData(int id)
         {
-            var norma = await _context.Norms.FindAsync(id);
+            var workerData = await _context.WorkerDatas.FindAsync(id);
 
-            if (norma == null)
+            if (workerData == null)
             {
                 return NotFound();
             }
 
-            return norma;
+            return workerData;
         }
 
-        // PUT: api/Norms/5
+        // PUT: api/WorkerDatas/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNorma(Guid id, Norma norma)
+        public async Task<IActionResult> PutWorkerData(Guid id, WorkerData workerData)
         {
-            if (id != norma.Id)
+            if (id != workerData.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(norma).State = EntityState.Modified;
+            _context.Entry(workerData).State = EntityState.Modified;
 
             try
             {
@@ -62,7 +61,7 @@ namespace TabelGPWebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!NormaExists(id))
+                if (!WorkerDataExists(id))
                 {
                     return NotFound();
                 }
@@ -75,37 +74,37 @@ namespace TabelGPWebAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Norms
+        // POST: api/WorkerDatas
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Norma>> PostNorma(Norma norma)
+        public async Task<ActionResult<WorkerData>> PostWorkerData(WorkerData workerData)
         {
-            _context.Norms.Add(norma);
+            _context.WorkerDatas.Add(workerData);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetNorma), new { id = norma.Id }, norma);
+            return CreatedAtAction("GetWorkerData", new { id = workerData.Id }, workerData);
         }
 
-        // DELETE: api/Norms/5
+        // DELETE: api/WorkerDatas/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Norma>> DeleteNorma(int id)
+        public async Task<ActionResult<WorkerData>> DeleteWorkerData(int id)
         {
-            var norma = await _context.Norms.FindAsync(id);
-            if (norma == null)
+            var workerData = await _context.WorkerDatas.FindAsync(id);
+            if (workerData == null)
             {
                 return NotFound();
             }
 
-            _context.Norms.Remove(norma);
+            _context.WorkerDatas.Remove(workerData);
             await _context.SaveChangesAsync();
 
-            return norma;
+            return workerData;
         }
 
-        private bool NormaExists(Guid id)
+        private bool WorkerDataExists(Guid id)
         {
-            return _context.Norms.Any(e => e.Id == id);
+            return _context.WorkerDatas.Any(e => e.Id == id);
         }
     }
 }
