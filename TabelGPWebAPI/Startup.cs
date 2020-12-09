@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using TabelGPWebAPI.Conf;
 
 namespace TabelGPWebAPI
@@ -34,7 +35,11 @@ namespace TabelGPWebAPI
             var config = builder.Build();
             string connectionString = config.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(connectionString));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(
+                options => {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; 
+                });
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +60,8 @@ namespace TabelGPWebAPI
             {
                 endpoints.MapControllers();
             });
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
     }
 }

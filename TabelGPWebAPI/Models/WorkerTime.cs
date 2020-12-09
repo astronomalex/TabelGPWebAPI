@@ -18,7 +18,7 @@ namespace TabelGPWebAPI.Models
         public float SrednTime { get; set; }
         public float PprTime { get; set; }
         public float DoubleTime { get; set; }
-        public Smena Smena { get; set; }
+        public virtual Smena Smena { get; set; }
         public Guid SmenaId { get; set; }
     }
 }

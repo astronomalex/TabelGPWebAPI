@@ -30,10 +30,10 @@ namespace TabelGPWebAPI.Controllers
         }
 
         // GET: api/Norms/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Norma>> GetNorma(int id)
+        [HttpGet("{machine}/{groupDiff}")]
+        public async Task<ActionResult<Norma>> GetNorma(string machine, string groupDiff)
         {
-            var norma = await _context.Norms.FindAsync(id);
+            var norma = await _context.Norms.FirstOrDefaultAsync(s => (s.GroupDiff == groupDiff && s.Machine == machine));
 
             if (norma == null)
             {
@@ -89,7 +89,7 @@ namespace TabelGPWebAPI.Controllers
 
         // DELETE: api/Norms/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Norma>> DeleteNorma(int id)
+        public async Task<ActionResult<Norma>> DeleteNorma(Guid id)
         {
             var norma = await _context.Norms.FindAsync(id);
             if (norma == null)

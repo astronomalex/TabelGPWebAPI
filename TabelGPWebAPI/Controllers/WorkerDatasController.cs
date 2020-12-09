@@ -29,10 +29,10 @@ namespace TabelGPWebAPI.Controllers
         }
 
         // GET: api/WorkerDatas/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<WorkerData>> GetWorkerData(int id)
+        [HttpGet("{tabelNum}")]
+        public async Task<ActionResult<WorkerData>> GetWorkerData(string tabelNum)
         {
-            var workerData = await _context.WorkerDatas.FindAsync(id);
+            var workerData = await _context.WorkerDatas.FirstOrDefaultAsync(w => w.TableNum == tabelNum);
 
             if (workerData == null)
             {
@@ -83,7 +83,7 @@ namespace TabelGPWebAPI.Controllers
             _context.WorkerDatas.Add(workerData);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWorkerData", new { id = workerData.Id }, workerData);
+            return CreatedAtAction("GetWorkerData", new { tabelNum = workerData.TableNum }, workerData);
         }
 
         // DELETE: api/WorkerDatas/5
