@@ -17,7 +17,8 @@ namespace TabelGPWebAPI
             string connectionString = config.GetConnectionString("DefaultConnection");
 
             
-            var options = optionsBuilder.UseSqlServer(connectionString).Options;
+            var options = optionsBuilder
+                .UseSqlServer(connectionString).Options;
             return new ApplicationContext(optionsBuilder.Options);
         }
     }

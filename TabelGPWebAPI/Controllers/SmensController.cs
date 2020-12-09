@@ -38,15 +38,6 @@ namespace TabelGPWebAPI.Controllers
             
             return Ok(smena);
         }
-        // {
-        //     var smena = await _context.Smens.Where(s => (s.Machine == machine && s.DateSmen == date)).ToListAsync();
-        //     if (smena[0] == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //
-        //     return smena[0];
-        // }
 
         [HttpPost]
         public async Task<ActionResult<Smena>> PostSmena(Smena smena)

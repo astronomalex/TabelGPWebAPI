@@ -30,5 +30,10 @@ namespace TabelGPWebAPI
             modelBuilder.ApplyConfiguration(new NormaConfiguration());
             modelBuilder.ApplyConfiguration(new WorkerTimeConfiguration());
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
     }
 }

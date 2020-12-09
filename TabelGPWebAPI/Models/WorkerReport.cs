@@ -10,7 +10,7 @@ namespace TabelGPWebAPI.Models
         public Guid Id { get; set; }
         public string TbNum { get; set; }
         public string Grade { get; set; }
-        public Report Report { get; set; }
+        public virtual Report Report { get; set; }
         public Guid ReportId { get; set; }
     }
 }
