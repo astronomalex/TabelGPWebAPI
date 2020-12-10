@@ -10,11 +10,11 @@ namespace TabelGPWebAPI.Configurations
         {
             builder.HasKey(entity => entity.Id);
             builder.Property(entity => entity.Id).HasDefaultValueSql("newsequentialid()");
-            builder.HasOne(entity => entity.Report)
-                .WithMany(entity => entity.WorkUnits)
-                .HasForeignKey(entity => entity.ReportId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.NoAction);
+            // builder.HasOne(entity => entity.Report)
+            //     .WithMany(entity => entity.WorkUnits)
+            //     .HasForeignKey(entity => entity.ReportId)
+            //     .IsRequired()
+            //     .OnDelete(DeleteBehavior.NoAction);
             
         }
     }

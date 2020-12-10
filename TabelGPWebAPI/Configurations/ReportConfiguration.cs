@@ -15,6 +15,11 @@ namespace TabelGPWebAPI.Configurations
                 .HasForeignKey(entity => entity.ReportId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(entity => entity.WorkerListReports)
+                .WithOne(entity => entity.Report)
+                .HasForeignKey(entity => entity.ReportId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Property(entity => entity.Machine).IsRequired();
             builder.Property(entity => entity.DateReport).IsRequired();
             builder.Property(entity => entity.NumSmenReport).IsRequired();

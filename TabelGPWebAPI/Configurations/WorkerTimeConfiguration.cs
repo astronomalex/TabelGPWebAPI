@@ -10,11 +10,11 @@ namespace TabelGPWebAPI.Conf
         {
             builder.HasKey(entity => entity.Id);
             builder.Property(entity => entity.Id).HasDefaultValueSql("newsequentialid()");
-            builder.HasOne(entity => entity.Smena)
-                .WithMany(entity => entity.WorkerTimes)
-                .HasForeignKey(entity => entity.SmenaId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.NoAction);
+            // builder.HasOne(entity => entity.Smena)
+            //     .WithMany(entity => entity.WorkerTimes)
+            //     .HasForeignKey(entity => entity.SmenaId)
+            //     .IsRequired()
+            //     .OnDelete(DeleteBehavior.NoAction);
             builder.Property(entity => entity.TbNum).IsRequired();
             builder.Property(entity => entity.Grade).IsRequired();
             
