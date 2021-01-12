@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TabelGPWebAPI.Conf;
+using TabelGPWebAPI.Configurations;
 using TabelGPWebAPI.Models;
 
 namespace TabelGPWebAPI
@@ -17,6 +17,8 @@ namespace TabelGPWebAPI
         public virtual DbSet<WorkerReport> WorkerReport { get; set; }
         public virtual DbSet<WorkerTime> WorkerTimes { get; set; }
         public virtual DbSet<WorkUnit> WorkUnits { get; set; }
+        public virtual DbSet<User> Users { set; get; }
+        public virtual DbSet<Role> Roles { set; get; }
         
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
@@ -29,6 +31,8 @@ namespace TabelGPWebAPI
             modelBuilder.ApplyConfiguration(new SmenaConfiguration());
             modelBuilder.ApplyConfiguration(new NormaConfiguration());
             modelBuilder.ApplyConfiguration(new WorkerTimeConfiguration());
+            modelBuilder.ApplyConfiguration(new UserCofiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

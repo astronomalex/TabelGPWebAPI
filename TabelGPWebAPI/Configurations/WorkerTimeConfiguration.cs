@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TabelGPWebAPI.Models;
 
-namespace TabelGPWebAPI.Conf
+namespace TabelGPWebAPI.Configurations
 {
     public class WorkerTimeConfiguration : IEntityTypeConfiguration<WorkerTime>
     {

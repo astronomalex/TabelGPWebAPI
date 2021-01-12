@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace TabelGPWebAPI.Conf
+namespace TabelGPWebAPI.Configurations
 {
     public class NormaConfiguration : IEntityTypeConfiguration<Norma>
     {

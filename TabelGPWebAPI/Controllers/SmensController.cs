@@ -52,6 +52,16 @@ namespace TabelGPWebAPI.Controllers
             return Ok(smena);
         }
 
+        [HttpPost("smens")]
+        public async Task<ActionResult<ICollection<Smena>>> PostSmens(ICollection<Smena> smens)
+        {
+            if (smens == null)
+                return BadRequest();
+            await _context.Smens.AddRangeAsync(smens);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
         [HttpPut]
         public async Task<ActionResult<Smena>> UpdateSmena(Smena smena)
         {

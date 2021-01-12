@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TabelGPWebAPI.Models;
 
-namespace TabelGPWebAPI.Conf
+namespace TabelGPWebAPI.Configurations
 {
     public class SmenaConfiguration : IEntityTypeConfiguration<Smena>
     {
@@ -18,7 +18,6 @@ namespace TabelGPWebAPI.Conf
             builder.Property(entity => entity.Machine).IsRequired();
             builder.Property(entity => entity.DateSmen).IsRequired();
             builder.Property(entity => entity.NumSmen).IsRequired();
-            // builder.ToTable("Smena111");
         }
     }
 }

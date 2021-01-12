@@ -13,7 +13,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using TabelGPWebAPI.Conf;
 
 namespace TabelGPWebAPI
 {
