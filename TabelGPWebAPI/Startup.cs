@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace TabelGPWebAPI
@@ -37,6 +39,11 @@ namespace TabelGPWebAPI
             services.AddControllers().AddNewtonsoftJson(
                 options => {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; 
+                });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Account/Register");
                 });
             services.AddSwaggerDocument();
         }
