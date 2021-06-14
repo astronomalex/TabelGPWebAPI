@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TabelGPWebAPI.Data;
 using TabelGPWebAPI.Models;
 
 namespace TabelGPWebAPI
@@ -27,7 +28,8 @@ namespace TabelGPWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationContext>(opt => opt.UseInMemoryDatabase("NormList"));
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ApplicationContext>(opt => opt.UseNpgsql(connectionString));
             services.AddControllers();
         }
 
