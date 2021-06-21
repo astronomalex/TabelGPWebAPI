@@ -10,27 +10,35 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using TabelGPWebAPI.Data;
+using TabelGPWebAPI.Extensions;
+using TabelGPWebAPI.interfaces;
 using TabelGPWebAPI.Models;
+using TabelGPWebAPI.Services;
 
 namespace TabelGPWebAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        
+        private readonly IConfiguration _config;
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationContext>(opt => opt.UseNpgsql(connectionString));
+            services.AddApplicationServices(_config);
             services.AddControllers();
+            services.AddCors();
+            services.AddIdentityServices(_config);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +53,9 @@ namespace TabelGPWebAPI
 
             app.UseRouting();
 
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
