@@ -12,6 +12,8 @@ namespace TabelGPWebAPI.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<INormsRepository, NormsRepository>();
+            services.AddScoped<IMachinesRepository, MachinesRepository>();
             services.AddDbContext<ApplicationContext>(opt =>
                 opt.UseNpgsql(config.GetConnectionString("DefaultConnection")));
 

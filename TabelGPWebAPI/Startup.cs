@@ -17,7 +17,6 @@ using Microsoft.IdentityModel.Tokens;
 using TabelGPWebAPI.Data;
 using TabelGPWebAPI.Extensions;
 using TabelGPWebAPI.interfaces;
-using TabelGPWebAPI.Models;
 using TabelGPWebAPI.Services;
 
 namespace TabelGPWebAPI

@@ -2,30 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TabelGPWebAPI.Data;
-using TabelGPWebAPI.Models;
+using TabelGPWebAPI.DTOs;
+using TabelGPWebAPI.Entities;
+using TabelGPWebAPI.Extensions;
+using TabelGPWebAPI.interfaces;
 
 namespace TabelGPWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class NormsController : ControllerBase
     {
         private readonly ApplicationContext _context;
+        private readonly INormsRepository _normsRepository;
 
-        public NormsController(ApplicationContext context)
+        public NormsController(ApplicationContext context, INormsRepository normsRepository)
         {
             _context = context;
+            _normsRepository = normsRepository;
         }
 
         // GET: api/Norms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Norma>>> GetNorms()
+        public async Task<ActionResult<Dictionary<string, List<NormsDto>>>> GetNorms()
         {
-            return await _context.Norms.ToListAsync();
+            var userName = User.GetUsername();
+            var norms = await _normsRepository.GetNormsByUserAsync(userName);
+            if (norms == null) return BadRequest("User is not existed");
+            return Ok(norms);
         }
 
         // GET: api/Norms/5
@@ -46,7 +56,7 @@ namespace TabelGPWebAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNorma(int id, Norma norma)
+        public async Task<IActionResult> PutNorma(Guid id, Norma norma)
         {
             if (id != norma.Id)
             {
@@ -102,7 +112,15 @@ namespace TabelGPWebAPI.Controllers
             return norma;
         }
 
-        private bool NormaExists(int id)
+        [HttpPost("save")]
+        public async Task<ActionResult> Save(Dictionary<string, List<NormsDto>> dictNorms)
+        {
+            var username = User.GetUsername();
+            var result = await _normsRepository.SaveNorms(dictNorms, username);
+            return Ok(result);
+        }
+
+        private bool NormaExists(Guid id)
         {
             return _context.Norms.Any(e => e.Id == id);
         }
