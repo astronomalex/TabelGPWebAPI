@@ -10,7 +10,7 @@ using TabelGPWebAPI.Data;
 namespace TabelGPWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210711200100_InitDb")]
+    [Migration("20210724223509_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,37 @@ namespace TabelGPWebAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TabelGPWebAPI.Entities.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Patronymic")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TabelNum")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("TabelGPWebAPI.Entities.Machine", b =>
@@ -82,6 +113,17 @@ namespace TabelGPWebAPI.Migrations
                     b.ToTable("Norms");
                 });
 
+            modelBuilder.Entity("TabelGPWebAPI.Entities.Employee", b =>
+                {
+                    b.HasOne("TabelGPWebAPI.Entities.AppUser", "AppUser")
+                        .WithMany("EmployeesByUser")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("TabelGPWebAPI.Entities.Norma", b =>
                 {
                     b.HasOne("TabelGPWebAPI.Entities.Machine", "Machine")
@@ -103,6 +145,8 @@ namespace TabelGPWebAPI.Migrations
 
             modelBuilder.Entity("TabelGPWebAPI.Entities.AppUser", b =>
                 {
+                    b.Navigation("EmployeesByUser");
+
                     b.Navigation("NormsByUser");
                 });
 

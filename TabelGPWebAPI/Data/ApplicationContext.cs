@@ -8,6 +8,7 @@ namespace TabelGPWebAPI.Data
         public DbSet<Norma> Norms { get; set; }
         public DbSet<AppUser> Users { get; set; }
         public DbSet<Machine> Machines { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {

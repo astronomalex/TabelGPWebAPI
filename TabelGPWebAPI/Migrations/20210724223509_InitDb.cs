@@ -34,6 +34,29 @@ namespace TabelGPWebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Grade = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Surname = table.Column<string>(type: "text", nullable: true),
+                    Patronymic = table.Column<string>(type: "text", nullable: true),
+                    TabelNum = table.Column<string>(type: "text", nullable: true),
+                    AppUserId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employees_Users_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Norms",
                 columns: table => new
                 {
@@ -61,6 +84,11 @@ namespace TabelGPWebAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Employees_AppUserId",
+                table: "Employees",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Norms_MachineId",
                 table: "Norms",
                 column: "MachineId");
@@ -73,6 +101,9 @@ namespace TabelGPWebAPI.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Employees");
+
             migrationBuilder.DropTable(
                 name: "Norms");
 

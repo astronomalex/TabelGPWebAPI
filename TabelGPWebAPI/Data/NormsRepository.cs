@@ -20,14 +20,15 @@ namespace TabelGPWebAPI.Data
             _context = context;
         }
         
-        public async Task<Dictionary<string, List<NormsDto>>> GetNormsByUserAsync(string username)
+        public async Task<Dictionary<string, List<NormsDto>>> GetNormsByUsernameAsync(string username)
         {
             var machines = await _context.Machines.ToListAsync();
             Dictionary<string, List<NormsDto>> normsDict = new Dictionary<string, List<NormsDto>>();
+            AppUser user = _context.Users.First(u => u.UserName == username);
+            if (user == null) return null;
+            
             foreach (var machine in machines)
             {
-                AppUser user = _context.Users.First(u => u.UserName == username);
-                if (user == null) return null;
                 var nomrsOfMachine = _context.Norms.Where(norm =>
                     norm.Machine.MachineName == machine.MachineName && norm.UserId == user.Id);
                 var normDtos = new List<NormsDto>();
@@ -45,10 +46,14 @@ namespace TabelGPWebAPI.Data
             return normsDict;
         }
 
-        public async Task<int> SaveNorms(Dictionary<string, List<NormsDto>> dictNorms, string userName)
+        public async Task<int> SaveNormsAsync(Dictionary<string, List<NormsDto>> dictNorms, string userName)
         {
             var user = await _context.Users.FirstAsync(u => u.UserName == userName);
             var normsByUser = _context.Norms.Where(n => n.UserId == user.Id);
+            foreach (var normaForDelete in normsByUser)
+            {
+                _context.Norms.Remove(normaForDelete);
+            }
 
             foreach (var machineName in dictNorms.Keys)
             {
@@ -66,26 +71,19 @@ namespace TabelGPWebAPI.Data
                 foreach (var normsDto in dictNorms[machineName])
                 {
                     var machineId = machine.Id;
-                    var oldNorm = await _context.Norms.FirstOrDefaultAsync(n => 
-                        n.GroupDiff == normsDto.GrpDiff && n.Machine.MachineName == machineName);
-                    if (oldNorm != null)
+                    
+                    await _context.Norms.AddAsync(new Norma()
                     {
-                        oldNorm.Amount = normsDto.Norma;
-                    }
-                    else
-                    {
-                        await _context.Norms.AddAsync(new Norma()
-                        {
-                            GroupDiff = normsDto.GrpDiff,
-                            UserId = user.Id,
-                            User = user,
-                            Amount = normsDto.Norma,
-                            MachineId = machineId,
-                            Machine = machine
-                        });
-                    }
-
-                    await _context.SaveChangesAsync();
+                        GroupDiff = normsDto.GrpDiff,
+                        UserId = user.Id,
+                        User = user,
+                        Amount = normsDto.Norma,
+                        MachineId = machineId,
+                        Machine = machine
+                    });
+                    //
+                    //
+                    // await _context.SaveChangesAsync();
                 }
             }
             

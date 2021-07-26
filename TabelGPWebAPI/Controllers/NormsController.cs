@@ -33,7 +33,7 @@ namespace TabelGPWebAPI.Controllers
         public async Task<ActionResult<Dictionary<string, List<NormsDto>>>> GetNorms()
         {
             var userName = User.GetUsername();
-            var norms = await _normsRepository.GetNormsByUserAsync(userName);
+            var norms = await _normsRepository.GetNormsByUsernameAsync(userName);
             if (norms == null) return BadRequest("User is not existed");
             return Ok(norms);
         }
@@ -116,7 +116,7 @@ namespace TabelGPWebAPI.Controllers
         public async Task<ActionResult> Save(Dictionary<string, List<NormsDto>> dictNorms)
         {
             var username = User.GetUsername();
-            var result = await _normsRepository.SaveNorms(dictNorms, username);
+            var result = await _normsRepository.SaveNormsAsync(dictNorms, username);
             return Ok(result);
         }
 
