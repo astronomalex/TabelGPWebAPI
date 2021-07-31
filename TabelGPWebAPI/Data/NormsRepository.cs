@@ -60,19 +60,20 @@ namespace TabelGPWebAPI.Data
                 var machine = await _context.Machines.FirstOrDefaultAsync(m => m.MachineName == machineName);
                 if (machine == null)
                 {
-                    await _context.Machines.AddAsync(new Machine()
+                    var newMachine = new Machine
                     {
                         MachineName = machineName
-                    });
+                    };
+                    await _context.Machines.AddAsync(newMachine);
                     await _context.SaveChangesAsync();
-                    machine = await _context.Machines.FirstOrDefaultAsync(m => m.MachineName == machineName);
+                    machine = newMachine;
                 }
                 
                 foreach (var normsDto in dictNorms[machineName])
                 {
                     var machineId = machine.Id;
                     
-                    await _context.Norms.AddAsync(new Norma()
+                    await _context.Norms.AddAsync(new Norma
                     {
                         GroupDiff = normsDto.GrpDiff,
                         UserId = user.Id,

@@ -10,8 +10,8 @@ using TabelGPWebAPI.Data;
 namespace TabelGPWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210724223509_InitDb")]
-    partial class InitDb
+    [Migration("20210728203831_initDb")]
+    partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,6 +72,51 @@ namespace TabelGPWebAPI.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("TabelGPWebAPI.Entities.EmployeeTime", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<float>("DoublePayTime")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("integer");
+
+                    b.Property<float>("NightTime")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PprTime")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PrikTime")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ProstTime")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SdelTime")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("ShiftId")
+                        .HasColumnType("uuid");
+
+                    b.Property<float>("SrednTime")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ShiftId");
+
+                    b.ToTable("EmployeeTimes");
+                });
+
             modelBuilder.Entity("TabelGPWebAPI.Entities.Machine", b =>
                 {
                     b.Property<Guid>("Id")
@@ -113,6 +158,33 @@ namespace TabelGPWebAPI.Migrations
                     b.ToTable("Norms");
                 });
 
+            modelBuilder.Entity("TabelGPWebAPI.Entities.Shift", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DateShift")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("MachineId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("NumShift")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("MachineId");
+
+                    b.ToTable("Shifts");
+                });
+
             modelBuilder.Entity("TabelGPWebAPI.Entities.Employee", b =>
                 {
                     b.HasOne("TabelGPWebAPI.Entities.AppUser", "AppUser")
@@ -122,6 +194,25 @@ namespace TabelGPWebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("TabelGPWebAPI.Entities.EmployeeTime", b =>
+                {
+                    b.HasOne("TabelGPWebAPI.Entities.Employee", "Employee")
+                        .WithMany("EmployeeTimes")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TabelGPWebAPI.Entities.Shift", "Shift")
+                        .WithMany("EmployeeTimes")
+                        .HasForeignKey("ShiftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Shift");
                 });
 
             modelBuilder.Entity("TabelGPWebAPI.Entities.Norma", b =>
@@ -143,16 +234,47 @@ namespace TabelGPWebAPI.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("TabelGPWebAPI.Entities.Shift", b =>
+                {
+                    b.HasOne("TabelGPWebAPI.Entities.AppUser", "AppUser")
+                        .WithMany("ShiftsByUser")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TabelGPWebAPI.Entities.Machine", "Machine")
+                        .WithMany()
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Machine");
+                });
+
             modelBuilder.Entity("TabelGPWebAPI.Entities.AppUser", b =>
                 {
                     b.Navigation("EmployeesByUser");
 
                     b.Navigation("NormsByUser");
+
+                    b.Navigation("ShiftsByUser");
+                });
+
+            modelBuilder.Entity("TabelGPWebAPI.Entities.Employee", b =>
+                {
+                    b.Navigation("EmployeeTimes");
                 });
 
             modelBuilder.Entity("TabelGPWebAPI.Entities.Machine", b =>
                 {
                     b.Navigation("NormsByMashine");
+                });
+
+            modelBuilder.Entity("TabelGPWebAPI.Entities.Shift", b =>
+                {
+                    b.Navigation("EmployeeTimes");
                 });
 #pragma warning restore 612, 618
         }

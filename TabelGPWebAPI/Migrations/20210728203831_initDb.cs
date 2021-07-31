@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TabelGPWebAPI.Migrations
 {
-    public partial class InitDb : Migration
+    public partial class initDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -83,10 +83,80 @@ namespace TabelGPWebAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Shifts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateShift = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    NumShift = table.Column<string>(type: "text", nullable: true),
+                    AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MachineId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shifts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Shifts_Machines_MachineId",
+                        column: x => x.MachineId,
+                        principalTable: "Machines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Shifts_Users_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeTimes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DoublePayTime = table.Column<float>(type: "real", nullable: false),
+                    NightTime = table.Column<float>(type: "real", nullable: false),
+                    PprTime = table.Column<float>(type: "real", nullable: false),
+                    PrikTime = table.Column<float>(type: "real", nullable: false),
+                    ProstTime = table.Column<float>(type: "real", nullable: false),
+                    SdelTime = table.Column<float>(type: "real", nullable: false),
+                    SrednTime = table.Column<float>(type: "real", nullable: false),
+                    Grade = table.Column<int>(type: "integer", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ShiftId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeTimes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeTimes_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeTimes_Shifts_ShiftId",
+                        column: x => x.ShiftId,
+                        principalTable: "Shifts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_AppUserId",
                 table: "Employees",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeTimes_EmployeeId",
+                table: "EmployeeTimes",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeTimes_ShiftId",
+                table: "EmployeeTimes",
+                column: "ShiftId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Norms_MachineId",
@@ -97,15 +167,31 @@ namespace TabelGPWebAPI.Migrations
                 name: "IX_Norms_UserId",
                 table: "Norms",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shifts_AppUserId",
+                table: "Shifts",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shifts_MachineId",
+                table: "Shifts",
+                column: "MachineId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "EmployeeTimes");
 
             migrationBuilder.DropTable(
                 name: "Norms");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Shifts");
 
             migrationBuilder.DropTable(
                 name: "Machines");

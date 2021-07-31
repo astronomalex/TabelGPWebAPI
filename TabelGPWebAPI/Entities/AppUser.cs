@@ -12,6 +12,7 @@ namespace TabelGPWebAPI.Entities
         public byte[] PasswordSalt { get; set; }
         public ICollection<Norma> NormsByUser { get; set; }
         public ICollection<Employee> EmployeesByUser { get; set; }
+        public ICollection<Shift> ShiftsByUser { get; set; }
         
     }
 }

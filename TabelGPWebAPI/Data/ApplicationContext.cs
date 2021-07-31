@@ -9,6 +9,8 @@ namespace TabelGPWebAPI.Data
         public DbSet<AppUser> Users { get; set; }
         public DbSet<Machine> Machines { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
+        public DbSet<EmployeeTime> EmployeeTimes { get; set; }
         
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
