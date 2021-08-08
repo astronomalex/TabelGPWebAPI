@@ -1,5 +1,4 @@
-﻿
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -67,7 +66,7 @@ namespace TabelGPWebAPI.Controllers
                 Token = _tokenService.CreateToken(user)
             };
         }
-        
+
 
         private async Task<bool> UserExists(string username)
         {

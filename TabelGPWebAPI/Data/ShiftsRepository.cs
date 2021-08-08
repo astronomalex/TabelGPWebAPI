@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +17,7 @@ namespace TabelGPWebAPI.Data
         {
             _context = context;
         }
-        
+
         public async Task<ICollection<ShiftDto>> GetShiftsByUsername(string username)
         {
             var user = await GetUser(username);
@@ -30,23 +29,20 @@ namespace TabelGPWebAPI.Data
             ICollection<ShiftDto> shiftDtos = new List<ShiftDto>();
             foreach (var shift in shiftsByUser)
             {
-                ICollection<EmployeeTimeDto> employeeTimeDtos = new List<EmployeeTimeDto>();
-
-                foreach (var shiftEmployeeTime in shift.EmployeeTimes)
-                {
-                    employeeTimeDtos.Add(new EmployeeTimeDto
-                    {
-                        DoublePayTime = shiftEmployeeTime.DoublePayTime,
-                        Grade = shiftEmployeeTime.Grade,
-                        NightTime = shiftEmployeeTime.NightTime,
-                        PprTime = shiftEmployeeTime.PprTime,
-                        PrikTime = shiftEmployeeTime.PrikTime,
-                        ProstTime = shiftEmployeeTime.ProstTime,
-                        SdelTime = shiftEmployeeTime.SdelTime,
-                        SrednTime = shiftEmployeeTime.SrednTime,
-                        TbNum = shiftEmployeeTime.Employee.TabelNum
-                    });
-                }
+                ICollection<EmployeeTimeDto> employeeTimeDtos = shift.EmployeeTimes.Select(shiftEmployeeTime =>
+                        new EmployeeTimeDto
+                        {
+                            DoublePayTime = shiftEmployeeTime.DoublePayTime,
+                            Grade = shiftEmployeeTime.Grade,
+                            NightTime = shiftEmployeeTime.NightTime,
+                            PprTime = shiftEmployeeTime.PprTime,
+                            PrikTime = shiftEmployeeTime.PrikTime,
+                            ProstTime = shiftEmployeeTime.ProstTime,
+                            SdelTime = shiftEmployeeTime.SdelTime,
+                            SrednTime = shiftEmployeeTime.SrednTime,
+                            TbNum = shiftEmployeeTime.Employee.TabelNum
+                        })
+                    .ToList();
 
 
                 var shiftDto = new ShiftDto
@@ -56,7 +52,7 @@ namespace TabelGPWebAPI.Data
                     NumSmen = shift.NumShift,
                     WorkersTime = employeeTimeDtos
                 };
-                
+
                 shiftDtos.Add(shiftDto);
             }
 
@@ -89,14 +85,13 @@ namespace TabelGPWebAPI.Data
                         EmployeeId = _context.Employees.First(e => e.TabelNum == employeeTimeDto.TbNum).Id,
                         Employee = _context.Employees.First(e => e.TabelNum == employeeTimeDto.TbNum),
                         Grade = employeeTimeDto.Grade
-
                     };
                     employeeTimes.Add(employeeTime);
                     await _context.EmployeeTimes.AddAsync(employeeTime);
                 }
 
                 var machine = _context.Machines.FirstOrDefault(m => m.MachineName == sDto.Mashine);
-                if ( machine == null)
+                if (machine == null)
                 {
                     machine = new Machine
                     {
@@ -117,16 +112,14 @@ namespace TabelGPWebAPI.Data
                 var result = await _context.Shifts.AddAsync(shift);
                 Console.WriteLine(result);
                 await _context.SaveChangesAsync();
-            } 
-            
+            }
+
             return await _context.SaveChangesAsync();
         }
-        
+
         private async Task<AppUser> GetUser(string username)
         {
-            
-            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == username);;
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == username);
         }
     }
-    
 }

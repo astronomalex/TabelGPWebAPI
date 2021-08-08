@@ -13,10 +13,10 @@ namespace TabelGPWebAPI.Entities
         public float SdelTime { get; set; }
         public float SrednTime { get; set; }
         public int Grade { get; set; }
-        
+
         public Employee Employee { get; set; }
         public Guid EmployeeId { set; get; }
-        
+
         public Shift Shift { get; set; }
         public Guid ShiftId { get; set; }
     }

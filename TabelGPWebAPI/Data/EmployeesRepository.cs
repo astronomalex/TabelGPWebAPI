@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +16,7 @@ namespace TabelGPWebAPI.Data
         {
             _context = context;
         }
+
         public async Task<ICollection<EmployeeDto>> GetEmployeesByUsernameAsync(string username)
         {
             AppUser user = await _context.Users.FirstAsync(appUser => appUser.UserName == username);
@@ -51,7 +51,7 @@ namespace TabelGPWebAPI.Data
 
             foreach (var employeeDto in employeeDtos)
             {
-                await _context.Employees.AddAsync(new Employee()
+                await _context.Employees.AddAsync(new Employee
                 {
                     Grade = employeeDto.Grade,
                     AppUser = user,
@@ -61,10 +61,9 @@ namespace TabelGPWebAPI.Data
                     Patronymic = employeeDto.Patronymic,
                     TabelNum = employeeDto.TabelNum
                 });
-                
             }
-            
-            return  await _context.SaveChangesAsync();
+
+            return await _context.SaveChangesAsync();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace TabelGPWebAPI.Entities
 
         public AppUser AppUser { get; set; }
         public Guid AppUserId { get; set; }
-        
+
         public Machine Machine { get; set; }
         public Guid MachineId { get; set; }
 

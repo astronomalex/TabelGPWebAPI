@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace TabelGPWebAPI.Entities
@@ -8,6 +7,8 @@ namespace TabelGPWebAPI.Entities
     {
         public Guid Id { get; set; }
         public string MachineName { get; set; }
+
         public ICollection<Norma> NormsByMashine { get; set; } = new List<Norma>();
+        public ICollection<Report> Reports { get; set; }
     }
 }

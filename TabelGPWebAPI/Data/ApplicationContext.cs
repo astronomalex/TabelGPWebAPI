@@ -11,7 +11,11 @@ namespace TabelGPWebAPI.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Shift> Shifts { get; set; }
         public DbSet<EmployeeTime> EmployeeTimes { get; set; }
-        
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<WorkerReport> WorkerReports { get; set; }
+        public DbSet<WorkReport> WorkReports { get; set; }
+
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
             // Database.EnsureCreated();

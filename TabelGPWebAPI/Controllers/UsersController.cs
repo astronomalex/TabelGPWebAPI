@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +11,7 @@ namespace TabelGPWebAPI.Controllers
     public class UsersController : BaseApiController
     {
         private readonly ApplicationContext _context;
-        
+
         public UsersController(ApplicationContext context)
         {
             _context = context;

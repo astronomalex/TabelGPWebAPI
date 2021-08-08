@@ -16,6 +16,7 @@ namespace TabelGPWebAPI.Extensions
             services.AddScoped<IMachinesRepository, MachinesRepository>();
             services.AddScoped<IEmployeesRepository, EmployeesRepository>();
             services.AddScoped<IShiftsRepository, ShiftsRepository>();
+            services.AddScoped<IReportsRepository, ReportsRepository>();
             services.AddDbContext<ApplicationContext>(opt =>
                 opt.UseNpgsql(config.GetConnectionString("DefaultConnection")));
 

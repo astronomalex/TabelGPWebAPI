@@ -14,10 +14,7 @@ namespace TabelGPWebAPI.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     MachineName = table.Column<string>(type: "text", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Machines", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Machines", x => x.Id); });
 
             migrationBuilder.CreateTable(
                 name: "Users",
@@ -28,10 +25,7 @@ namespace TabelGPWebAPI.Migrations
                     PasswordHash = table.Column<byte[]>(type: "bytea", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Users", x => x.Id); });
 
             migrationBuilder.CreateTable(
                 name: "Employees",

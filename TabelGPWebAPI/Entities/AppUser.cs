@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace TabelGPWebAPI.Entities
@@ -13,6 +12,6 @@ namespace TabelGPWebAPI.Entities
         public ICollection<Norma> NormsByUser { get; set; }
         public ICollection<Employee> EmployeesByUser { get; set; }
         public ICollection<Shift> ShiftsByUser { get; set; }
-        
+        public ICollection<Report> Reports { get; set; }
     }
 }

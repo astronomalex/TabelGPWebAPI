@@ -12,6 +12,7 @@ namespace TabelGPWebAPI.Data
         {
             _context = context;
         }
+
         public Guid GetMachineIdByMachineName(string machineName)
         {
             var machine = _context.Machines.First(m => m.MachineName == machineName);

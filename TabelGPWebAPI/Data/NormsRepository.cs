@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TabelGPWebAPI.DTOs;
 using TabelGPWebAPI.Entities;
 using TabelGPWebAPI.interfaces;
-using Microsoft.AspNetCore.Http;
 
 namespace TabelGPWebAPI.Data
 {
@@ -19,14 +16,14 @@ namespace TabelGPWebAPI.Data
         {
             _context = context;
         }
-        
+
         public async Task<Dictionary<string, List<NormsDto>>> GetNormsByUsernameAsync(string username)
         {
             var machines = await _context.Machines.ToListAsync();
             Dictionary<string, List<NormsDto>> normsDict = new Dictionary<string, List<NormsDto>>();
             AppUser user = _context.Users.First(u => u.UserName == username);
             if (user == null) return null;
-            
+
             foreach (var machine in machines)
             {
                 var nomrsOfMachine = _context.Norms.Where(norm =>
@@ -40,9 +37,10 @@ namespace TabelGPWebAPI.Data
                         Norma = norma.Amount
                     });
                 }
+
                 normsDict.Add(machine.MachineName, normDtos);
-                
             }
+
             return normsDict;
         }
 
@@ -68,11 +66,11 @@ namespace TabelGPWebAPI.Data
                     await _context.SaveChangesAsync();
                     machine = newMachine;
                 }
-                
+
                 foreach (var normsDto in dictNorms[machineName])
                 {
                     var machineId = machine.Id;
-                    
+
                     await _context.Norms.AddAsync(new Norma
                     {
                         GroupDiff = normsDto.GrpDiff,
@@ -87,7 +85,7 @@ namespace TabelGPWebAPI.Data
                     // await _context.SaveChangesAsync();
                 }
             }
-            
+
 
             return await _context.SaveChangesAsync() > 0 ? 1 : 0;
         }

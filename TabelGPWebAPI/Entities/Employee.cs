@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace TabelGPWebAPI.Entities
@@ -15,6 +14,6 @@ namespace TabelGPWebAPI.Entities
         public AppUser AppUser { get; set; }
         public Guid AppUserId { get; set; }
         public ICollection<EmployeeTime> EmployeeTimes { get; set; }
-        
+        public ICollection<WorkerReport> WorkerReports { get; set; }
     }
 }
